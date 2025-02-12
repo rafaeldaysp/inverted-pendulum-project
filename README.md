@@ -21,7 +21,7 @@ O sistema é composto por:
 - Comunicação via USB com um computador para monitoramento
 
 ### Diagrama do Sistema
-![Esquema Elétrico](./esquema-eletrico.jpg)
+![Esquema Elétrico](./images/esquema-eletrico.jpg)
 
 ## Fluxo do Algoritmo
 O controle segue a seguinte lógica:
@@ -31,7 +31,7 @@ O controle segue a seguinte lógica:
 4. **Enviar o Sinal ao Motor**: O ESP32 envia o comando ao driver BTS7960 para atuar no motor.
 
 ### Fluxograma
-![Fluxograma](./logica-fluxograma.jpg)
+![Fluxograma](./images/logica-fluxograma.jpg)
 
 ## Inicialização do Sistema
 Antes de iniciar o controle do pêndulo, siga os passos abaixo:
