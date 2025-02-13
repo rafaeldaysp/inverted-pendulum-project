@@ -67,7 +67,7 @@ Antes de iniciar o controle, siga os seguintes passos:
 
 ## Monitoramento em Tempo Real
 O código implementado no ESP32 contém a função `display`, que permite visualizar as variáveis do sistema no terminal serial. Para isso:
-1. Abra um monitor serial no baud rate adequado.
+1. Abra um monitor serial no baud rate adequado (`115200`).
 2. Verifique os valores de posição e ângulo do pêndulo em tempo real.
 3. Utilize os dados para ajustes e validações do controle.
 
