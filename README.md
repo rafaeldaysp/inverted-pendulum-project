@@ -45,7 +45,7 @@ Antes de iniciar o controle do pêndulo, siga os passos abaixo:
 O código implementado permite monitorar os valores de posição e ângulo do pêndulo através do terminal serial. Utilize a função `display` para visualizar as variáveis em tempo real.
 
 ## Código Implementado
-O código embarcado no ESP32 está disponível no final do documento original em PDF. Ele inclui:
+O código embarcado no ESP32 está disponível no arquivo `main.ino`. Ele inclui:
 - Leitura dos encoders
 - Cálculo do sinal de controle
 - Envio do sinal PWM ao motor
@@ -54,4 +54,3 @@ O código embarcado no ESP32 está disponível no final do documento original em
 ## Considerações Finais
 Este projeto permite estudar a modelagem, construção e controle de um pêndulo invertido, sendo uma excelente aplicação para controle de sistemas dinâmicos. Qualquer melhoria ou modificação no código deve respeitar a estrutura do algoritmo descrita acima.
 
-# inverted-pendulum-project
