@@ -1,4 +1,4 @@
-# Pêndulo Invertido com ESP32
+# Manual do Projeto Pêndulo Invertido
 
 ## Descrição do Projeto
 Este projeto consiste na construção e controle de um pêndulo invertido utilizando um microcontrolador ESP32. O sistema inclui um carrinho motorizado que se desloca sobre um trilho linear, permitindo a estabilização do pêndulo em posição invertida por meio de um algoritmo de controle embarcado.
@@ -12,6 +12,12 @@ Este projeto consiste na construção e controle de um pêndulo invertido utiliz
   - **Posição**: Rotacional incremental
 - **Alimentação**: Fonte de 12V
 - **Outros**: Trilho linear, suporte impresso em 3D, polias e correias, jumpers e cabos
+
+## Estrutura dos Arquivos do Repositório
+O repositório contém os seguintes arquivos principais:
+- **`main.ino`** - Código embarcado do ESP32, contendo toda a lógica de controle.
+- **`simulation.slx`** - Arquivo do Simulink usado para simulação do sistema.
+- **`lqr_design.m`** - Script MATLAB para projeto do controlador LQR.
 
 ## Esquema de Conexões
 O sistema é composto por:
@@ -45,7 +51,7 @@ Antes de iniciar o controle do pêndulo, siga os passos abaixo:
 O código implementado permite monitorar os valores de posição e ângulo do pêndulo através do terminal serial. Utilize a função `display` para visualizar as variáveis em tempo real.
 
 ## Código Implementado
-O código embarcado no ESP32 está disponível no arquivo `main.ino`. Ele inclui:
+O código embarcado no ESP32 está disponível no arquivo **`main.ino`**. Ele inclui:
 - Leitura dos encoders
 - Cálculo do sinal de controle
 - Envio do sinal PWM ao motor
