@@ -1,17 +1,75 @@
-# Manual do Projeto Pêndulo Invertido
+# Manual do Projeto - Pêndulo Invertido
 
 ## Descrição do Projeto
-Este projeto consiste na construção e controle de um pêndulo invertido utilizando um microcontrolador ESP32. O sistema inclui um carrinho motorizado que se desloca sobre um trilho linear, permitindo a estabilização do pêndulo em posição invertida por meio de um algoritmo de controle embarcado.
+Este projeto consiste na modelagem, construção e controle de um pêndulo invertido utilizando um ESP32, um motor DC e encoders para medição de posição e ângulo. O sistema é controlado por um algoritmo embarcado no ESP32, que processa os sinais dos sensores e ajusta o motor para estabilizar o pêndulo.
 
-## Componentes Utilizados
-- **Microcontrolador**: ESP32
-- **Motor DC**: Modelo 775 (12V, 100W)
-- **Driver de Motor**: BTS7960
-- **Encoders**:
-  - **Pêndulo**: Rotacional incremental (2000 passos/revolução)
-  - **Posição**: Rotacional incremental
-- **Alimentação**: Fonte de 12V
-- **Outros**: Trilho linear, suporte impresso em 3D, polias e correias, jumpers e cabos
+## Hardware Utilizado
+- **ESP32** - Microcontrolador responsável pelo processamento e controle.
+- **Motor DC 775** - Fornece força para movimentar o carrinho.
+- **Driver BTS7960** - Controla o motor DC via PWM.
+- **Encoders rotacionais** - Capturam posição do carrinho e ângulo do pêndulo.
+- **Fonte de Alimentação 12V** - Fornece energia para o motor e circuitos.
+- **Guia Linear** - Permite movimento do carrinho.
+- **Estrutura em MDF** - Base para montagem do sistema.
+
+## Design Geral do Sistema
+![Esquema elétrico](./images/esquema-eletrico.jpg)
+
+O diagrama acima mostra a conexão dos componentes eletrônicos, incluindo alimentação, sensores e atuadores.
+
+## Explicação Eletrônica do Sistema
+
+O sistema eletrônico do pêndulo invertido é baseado no microcontrolador **ESP32**, que gerencia os sensores e atuadores do sistema. A seguir, são descritas as conexões principais do hardware.  
+
+### **1. Conexão dos Encoders**
+Os encoders incrementais são responsáveis pela medição da posição do carrinho e do ângulo do pêndulo. Eles são conectados ao ESP32 da seguinte maneira:
+
+| **Componente** | **Sinal** | **Porta do ESP32** |
+|--------------|----------|----------------|
+| **Encoder do Pêndulo** | CLK (A) | GPIO 34 |
+|  | DT (B) | GPIO 35 |
+| **Encoder do Carrinho** | CLK (A) | GPIO 32 |
+|  | DT (B) | GPIO 33 |
+
+- O ESP32 lê os pulsos gerados pelos encoders para calcular deslocamento e ângulo.  
+- As portas **GPIO 34 e 35** são entradas analógicas apenas, enquanto as **GPIO 32 e 33** suportam interrupções para contagem precisa dos pulsos.  
+
+### **2. Controle do Motor DC (Driver BTS7960)**
+O motor DC é controlado pelo **driver BTS7960**, que recebe sinais do ESP32 para definir direção e intensidade da força. As conexões são:
+
+| **Sinal** | **Porta do ESP32** |
+|----------|----------------|
+| PWM Motor (esquerda) | GPIO 18 |
+| PWM Motor (direita) | GPIO 19 |
+| Habilitação PWM | GPIO 23 |
+
+- O ESP32 gera sinais **PWM** para controlar a velocidade e direção do motor.  
+- O **driver BTS7960** usa esses sinais para fornecer potência ao motor DC **775**.  
+- A alimentação do motor vem de uma **fonte de 12V**, conectada ao driver.  
+
+## Algoritmo de Controle
+![Fluxograma do Algoritmo](./images/logica-fluxograma.jpg)
+
+O algoritmo embarcado segue a lógica acima:
+1. **Obter dados dos encoders** - Mede a posição do carrinho e o ângulo do pêndulo.
+2. **Verificar se está na região de controle** - Decide se o controle deve ser aplicado.
+3. **Calcular o sinal de controle** - Computa a ação necessária para estabilizar o pêndulo.
+4. **Enviar o sinal ao motor** - Controla o motor via PWM.
+5. **Repetir continuamente** - Atualiza as medições e atua no motor.
+
+## Inicialização do Pêndulo
+Antes de iniciar o controle, siga os seguintes passos:
+1. Posicione o carrinho no centro da trilha.
+2. Certifique-se de que o pêndulo está totalmente para baixo e em repouso.
+3. Conecte o ESP32 ao computador via USB.
+4. Monitore as variáveis no terminal da porta serial.
+5. Pressione o botão **RST** para resetar as variáveis antes de iniciar o controle.
+
+## Monitoramento em Tempo Real
+O código implementado no ESP32 contém a função `display`, que permite visualizar as variáveis do sistema no terminal serial. Para isso:
+1. Abra um monitor serial no baud rate adequado.
+2. Verifique os valores de posição e ângulo do pêndulo em tempo real.
+3. Utilize os dados para ajustes e validações do controle.
 
 ## Estrutura dos Arquivos do Repositório
 O repositório contém os seguintes arquivos principais:
@@ -19,44 +77,6 @@ O repositório contém os seguintes arquivos principais:
 - **`simulation.slx`** - Arquivo do Simulink usado para simulação do sistema.
 - **`lqr_design.m`** - Script MATLAB para projeto do controlador LQR.
 
-## Esquema de Conexões
-O sistema é composto por:
-- Encoders conectados ao ESP32 para leitura da posição e ângulo do pêndulo
-- Driver BTS7960 para controle do motor DC
-- Fonte de 12V para alimentação do motor e do driver
-- Comunicação via USB com um computador para monitoramento
-
-### Diagrama do Sistema
-![Esquema Elétrico](./images/esquema-eletrico.jpg)
-
-## Fluxo do Algoritmo
-O controle segue a seguinte lógica:
-1. **Obter Dados dos Encoders**: O ESP32 lê os valores dos encoders do pêndulo e da posição.
-2. **Verificar a Região de Controle**: Se o pêndulo estiver dentro da faixa de atuação, o controle será aplicado.
-3. **Calcular o Sinal de Controle**: O algoritmo determina o sinal PWM necessário para o motor.
-4. **Enviar o Sinal ao Motor**: O ESP32 envia o comando ao driver BTS7960 para atuar no motor.
-
-### Fluxograma
-![Fluxograma](./images/logica-fluxograma.jpg)
-
-## Inicialização do Sistema
-Antes de iniciar o controle do pêndulo, siga os passos abaixo:
-1. **Posicione o carrinho no centro da trilha**.
-2. **Coloque o pêndulo para baixo em repouso**.
-3. **Conecte o ESP32 ao computador via USB**.
-4. **Abra o monitor serial da porta do ESP32** para visualizar os dados.
-5. **Pressione o botão "RST" no ESP32** para resetar as variáveis e iniciar a leitura corretamente.
-
-## Monitoramento de Variáveis
-O código implementado permite monitorar os valores de posição e ângulo do pêndulo através do terminal serial. Utilize a função `display` para visualizar as variáveis em tempo real.
-
-## Código Implementado
-O código embarcado no ESP32 está disponível no arquivo **`main.ino`**. Ele inclui:
-- Leitura dos encoders
-- Cálculo do sinal de controle
-- Envio do sinal PWM ao motor
-- Monitoramento das variáveis via serial
-
-## Considerações Finais
-Este projeto permite estudar a modelagem, construção e controle de um pêndulo invertido, sendo uma excelente aplicação para controle de sistemas dinâmicos. Qualquer melhoria ou modificação no código deve respeitar a estrutura do algoritmo descrita acima.
+---
+Este manual foi criado para facilitar a utilização e entendimento do projeto. Boa sorte e bons experimentos! 🚀
 
