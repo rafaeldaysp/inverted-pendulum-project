@@ -26,10 +26,10 @@ Os encoders incrementais são responsáveis pela medição da posição do carri
 
 | **Componente** | **Sinal** | **Porta do ESP32** |
 |--------------|----------|----------------|
-| **Encoder do Pêndulo** | CLK (A) | GPIO 34 |
-|  | DT (B) | GPIO 35 |
-| **Encoder do Carrinho** | CLK (A) | GPIO 32 |
-|  | DT (B) | GPIO 33 |
+| **Encoder do Pêndulo** | CLK (A) | GPIO 26 |
+|  | DT (B) | GPIO 25 |
+| **Encoder do Carrinho** | CLK (A) | GPIO 14 |
+|  | DT (B) | GPIO 27 |
 
 - O ESP32 lê os pulsos gerados pelos encoders para calcular deslocamento e ângulo.  
 - As portas **GPIO 34 e 35** são entradas analógicas apenas, enquanto as **GPIO 32 e 33** suportam interrupções para contagem precisa dos pulsos.  
@@ -39,9 +39,9 @@ O motor DC é controlado pelo **driver BTS7960**, que recebe sinais do ESP32 par
 
 | **Sinal** | **Porta do ESP32** |
 |----------|----------------|
-| PWM Motor (esquerda) | GPIO 18 |
-| PWM Motor (direita) | GPIO 19 |
-| Habilitação PWM | GPIO 23 |
+| PWM Motor (esquerda) | GPIO 32 |
+| PWM Motor (direita) | GPIO 12 |
+| Habilitação PWM | GPIO 33 |
 
 - O ESP32 gera sinais **PWM** para controlar a velocidade e direção do motor.  
 - O **driver BTS7960** usa esses sinais para fornecer potência ao motor DC **775**.  
